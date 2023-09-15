@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import LightIcon from "../Icon/LightIcon";
 import HomePageIcon from "../Icon/HomePageIcon";
 import SettingIcon from "../Icon/SettingIcon";
 import BackIcon from "../Icon/BackIcon";
+import ModalEditProduct from "../ModalEditProduct";
 import "./styles.css";
+
 function Products({ projects }) {
+  const [modalData, setModalData] = useState({ open: false, data: null });
+  const handleOpenModal = (dataPrd) => {
+    setModalData({ open: true, data: dataPrd });
+  };
   return (
     <div className="main">
+      {modalData.open && (
+        <ModalEditProduct modalData={modalData} setModalData={setModalData} />
+      )}
+
       <header>
         <div className="header-container">
           <div className="left-object">
@@ -54,23 +64,33 @@ function Products({ projects }) {
           </div>
           <div className="grid-container">
             {projects.map((prj) => {
+              const objAttributes = prj.attributes;
               return (
-                <Link
-                  className="grid-item"
-                  key={prj.id}
-                  to={`/products/${prj.id}`}
-                >
-                  <img
-                    className="prj-img"
-                    src="https://vapa.vn/wp-content/uploads/2022/12/hinh-de-thuong-don-gian-003.jpg"
-                    alt=""
-                  />
-                  {prj.attributes.sub_title && (
-                    <h3>{prj.attributes.sub_title}</h3>
-                  )}
-                  <h2>{prj.attributes.name}</h2>
-                  <span>{prj.attributes.description}</span>
-                </Link>
+                <div className="grid-item" key={prj.id}>
+                  <div className="image-container">
+                    <img
+                      className="prj-img"
+                      src={`https://cms-vietswiss-staging.absolutagentur.ch${objAttributes.image.data.attributes.url}`}
+                      alt=""
+                    />
+                    <button
+                      type="button"
+                      className="bth-edit"
+                      onClick={() => {
+                        handleOpenModal(prj);
+                      }}
+                    >
+                      Edit
+                    </button>
+                  </div>
+                  <Link className="link-detail-prd" to={`/products/${prj.id}`}>
+                    {objAttributes.sub_title && (
+                      <h3>{objAttributes.sub_title}</h3>
+                    )}
+                    <h2>{objAttributes.name}</h2>
+                    <span>{objAttributes.description}</span>
+                  </Link>
+                </div>
               );
             })}
           </div>

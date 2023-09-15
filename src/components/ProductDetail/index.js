@@ -3,64 +3,85 @@ import { Link } from "react-router-dom";
 import CloseIcon from "../Icon/CloseIcon";
 import "./styles.css";
 
-export default function ProductDetail({ data }) {
-  console.log(data);
+export default function ProductDetail({ data, moreProducts = [] }) {
+  const objAttributes = data.attributes;
+  const techsData = objAttributes.technologies.data;
+  const devServData = objAttributes.development_services.data;
+  const galleryData = objAttributes.gallery.data;
   return (
     <div className="main-page-detail">
       <div className="main-img-container">
         <div className="header-detail-container">
           <div className="header-left">
-            <h1>VIETSWISS</h1>
-            <span>code & design</span>
+            <Link to="/" className="header-left-container">
+              <h1>VIETSWISS</h1>
+              <span>code & design</span>
+            </Link>
           </div>
           <div className="header-right">
-            <button type="button">
+            <Link className="grid-other-item" to={`/products`} type="button">
               <CloseIcon />
-            </button>
+            </Link>
           </div>
         </div>
         <img
           className="main-img"
-          src={`https://cms-vietswiss-staging.absolutagentur.ch${data.attributes.image.data.attributes.url}`}
-          alt={data.name}
+          src={`https://cms-vietswiss-staging.absolutagentur.ch${
+            objAttributes.image.data.attributes.url || ""
+          }`}
+          alt=""
         />
       </div>
       <div className="main-content">
         <div className="header-info-container">
-          <p>{data.name}</p>
-          <h1>{data.name}</h1>
-          <span>{data.name}</span>
+          {objAttributes.sub_title ? <p>{objAttributes.sub_title}</p> : ""}
+          <h1>{objAttributes.name}</h1>
+          <span>{objAttributes.description}</span>
         </div>
         <div className="divider" />
         <div className="info">
-          <span className="title">Services we provided</span>
+          <h3 className="title">Services we provided</h3>
           <div className="list-chip">
-            {[1, 2, 3, 4].map(() => (
-              <div className="chip">sadasds</div>
+            {devServData.map((svItem) => (
+              <div className="chip">{svItem.attributes.name}</div>
             ))}
           </div>
         </div>
         <div className="info">
-          <span className="title">Technologies used</span>
+          <h3 className="title">Technologies used</h3>
           <div className="tech-list">
-            {[1, 2, 3, 4].map(() => (
+            {techsData.map((techItem) => (
               <div className="tech-item">
-                <div className="logo-tech">sdsd</div>
-                <div className="name-tech">Reactjs</div>
+                <div className="logo-tech">logo</div>
+                <div className="name-tech">{techItem.attributes.name}</div>
               </div>
             ))}
           </div>
         </div>
         <div className="list-image">
-          {[1, 2, 3, 4].map(() => (
-            <div>
+          {galleryData.map((galItem) => {
+            const mediaType = galItem.attributes.mime;
+            if (mediaType === "video/mp4")
+              return (
+                <video
+                  controls
+                  className="image-item"
+                  src={`https://cms-vietswiss-staging.absolutagentur.ch${galItem.attributes.url}`}
+                >
+                  <source type="video/mp4" />
+                  Your browser does not support the video tag.
+                </video>
+              );
+            return (
               <img
-                src={`https://cms-vietswiss-staging.absolutagentur.ch${data.attributes.image.data.attributes.url}`}
-                alt={data.name}
+                src={`https://cms-vietswiss-staging.absolutagentur.ch${
+                  galItem.attributes.url || ""
+                }`}
+                alt=""
                 className="image-item"
               />
-            </div>
-          ))}
+            );
+          })}
         </div>
         <div className="contact-info">
           <span className="contact-title">
@@ -71,43 +92,35 @@ export default function ProductDetail({ data }) {
         </div>
         <div className="other-word">
           <div className="title-container">
-            <span className="title">Other words</span>
-            <span className="title">View all</span>
+            <h1>Other words</h1>
+            <Link className="grid-other-item" to={`/products`}>
+              View all
+            </Link>
           </div>
           <div className="divider" />
           <div className="list-other-works">
-            <Link
-              className="grid-other-item"
-              // key={prj.id}
-              to={`/products/${data.id}`}
-            >
-              <img
-                className="prj-img"
-                src="https://vapa.vn/wp-content/uploads/2022/12/hinh-de-thuong-don-gian-003.jpg"
-                alt=""
-              />
-              {data.attributes.sub_title && (
-                <h3>{data.attributes.sub_title}</h3>
-              )}
-              <h2>{data.attributes.name}</h2>
-              <span>{data.attributes.description}</span>
-            </Link>
-            <Link
-              className="grid-other-item"
-              // key={prj.id}
-              to={`/products/${data.id}`}
-            >
-              <img
-                className="prj-img"
-                src="https://vapa.vn/wp-content/uploads/2022/12/hinh-de-thuong-don-gian-003.jpg"
-                alt=""
-              />
-              {data.attributes.sub_title && (
-                <h3>{data.attributes.sub_title}</h3>
-              )}
-              <h2>{data.attributes.name}</h2>
-              <span>{data.attributes.description}</span>
-            </Link>
+            {moreProducts.map((item) => {
+              return (
+                <Link
+                  className="grid-other-item"
+                  key={item.id}
+                  to={`/products/${item.id}`}
+                >
+                  <img
+                    className="prj-img"
+                    src={`https://cms-vietswiss-staging.absolutagentur.ch${
+                      item.attributes.image.data.attributes.url || ""
+                    }`}
+                    alt=""
+                  />
+                  {item.attributes.sub_title && (
+                    <h3>{item.attributes.sub_title}</h3>
+                  )}
+                  <h2>{item.attributes.name}</h2>
+                  <span>{item.attributes.description}</span>
+                </Link>
+              );
+            })}
           </div>
         </div>
         {/* <Link to="/products">ProductDetail</Link>; */}

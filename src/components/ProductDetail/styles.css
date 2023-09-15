@@ -1,5 +1,6 @@
 .main-page-detail {
-  background-color: #1c1c1c;
+  color: #ffffff;
+  background: linear-gradient(to bottom, #202020 0%, #0a0a0a 100%);
 }
 
 .main-img-container {
@@ -24,7 +25,12 @@
   justify-content: space-between;
 }
 
-.header-left h1 {
+.header-left-container {
+  text-decoration: none;
+  color: #ffffff;
+}
+
+.header-left-container h1 {
   margin: 5px;
   font-style: normal;
   font-weight: 700;
@@ -32,16 +38,14 @@
   line-height: 100%;
   letter-spacing: -0.01em;
   text-transform: uppercase;
-  color: #ffffff;
 }
 
-.header-left span {
+.header-left-container span {
   margin-top: 0px;
   font-weight: 400;
   font-size: 22.5884px;
   line-height: 100%;
   letter-spacing: 0.06em;
-  color: #ffffff;
   padding-left: 5px;
 }
 
@@ -85,17 +89,19 @@
   line-height: 50px;
   border-radius: 25px;
   border: 1px solid white;
-  color: #ffffff;
 }
 
 .title {
-  color: #ffffff;
+  font-size: 20px;
+  line-height: 22px;
+  font-weight: 600;
 }
 
 .list-chip {
   padding-top: 21px;
   display: flex;
   gap: 22.37px;
+  flex-wrap: wrap;
 }
 
 .main-content {
@@ -119,6 +125,11 @@
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   overflow: hidden;
   color: #ffffff;
+
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(25px);
+  /* Note: backdrop-filter has minimal browser support */
+  border-radius: 10px;
 }
 
 .info {
@@ -136,8 +147,9 @@
   justify-content: center;
   align-items: center;
   height: 200px;
-  background-color: #f0f0f0;
+  background-color: #1c1c1c;
   border-radius: 10px;
+  border: 1px solid white;
 }
 
 .contact-info span {
@@ -148,12 +160,19 @@
 }
 
 .other-word {
-  padding-top: 58px;
+  padding: 58px 0;
 }
 
 .title-container {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+}
+
+.title-container h1 {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 30px;
 }
 
 .contact-info button {
@@ -176,13 +195,13 @@
 .grid-other-item {
   border-radius: 5px;
   text-decoration: none;
+  color: #ffffff;
 }
 
 .grid-other-item h3 {
   font-weight: 400;
   font-size: 16px;
   line-height: 10px;
-  color: #ffffff;
   flex: none;
   order: 0;
   flex-grow: 0;
@@ -192,7 +211,6 @@
   font-weight: 700;
   font-size: 20px;
   line-height: 10px;
-  color: #ffffff;
   flex: none;
   order: 1;
   flex-grow: 0;
@@ -204,6 +222,26 @@
   -webkit-line-clamp: 2;
   line-clamp: 2;
   -webkit-box-orient: vertical;
-  color: #ffffff;
   font-size: 16px;
+}
+
+@media (max-width: 768px) {
+  .main-img {
+    max-width: 100%;
+  }
+
+  .header-left-container {
+    display: none;
+  }
+
+  .main-content {
+    padding: 0 10%;
+    height: fix-content;
+  }
+
+  .list-other-works {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+  }
 }
