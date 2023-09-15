@@ -7,17 +7,22 @@ import BackIcon from "../Icon/BackIcon";
 import ModalEditProduct from "../ModalEditProduct";
 import "./styles.css";
 
-function Products({ projects }) {
+function Products({ projects, loadingUpdatePrj, handleRemovePrd }) {
   const [modalData, setModalData] = useState({ open: false, data: null });
-  const handleOpenModal = (dataPrd) => {
-    setModalData({ open: true, data: dataPrd });
+  const handleOpenModalEditPrd = (dataPrd) => {
+    setModalData({ open: true, data: dataPrd, type: "update" });
+  };
+  const handleOpenModalCreatePrd = (dataPrd) => {
+    setModalData({ open: true, type: "create" });
   };
   return (
     <div className="main">
       {modalData.open && (
         <ModalEditProduct modalData={modalData} setModalData={setModalData} />
       )}
-
+      <div className={`backdrop ${loadingUpdatePrj ? "open" : ""}`}>
+        <div className="progress-circle"></div>
+      </div>
       <header>
         <div className="header-container">
           <div className="left-object">
@@ -57,7 +62,7 @@ function Products({ projects }) {
               </button>
             </div>
             <div className="product-action-right">
-              <button type="button">
+              <button type="button" onClick={() => handleOpenModalCreatePrd()}>
                 <SettingIcon />
               </button>
             </div>
@@ -70,18 +75,31 @@ function Products({ projects }) {
                   <div className="image-container">
                     <img
                       className="prj-img"
-                      src={`https://cms-vietswiss-staging.absolutagentur.ch${objAttributes.image.data.attributes.url}`}
+                      src={
+                        objAttributes.image?.data?.attributes.url
+                          ? `https://cms-vietswiss-staging.absolutagentur.ch${objAttributes.image.data.attributes.url}`
+                          : "https://phutungnhapkhauchinhhang.com/wp-content/uploads/2020/06/default-thumbnail.jpg"
+                      }
                       alt=""
                     />
-                    <button
-                      type="button"
-                      className="bth-edit"
-                      onClick={() => {
-                        handleOpenModal(prj);
-                      }}
-                    >
-                      Edit
-                    </button>
+                    <div className="action-buttons">
+                      <button
+                        className="edit-button"
+                        onClick={() => {
+                          handleOpenModalEditPrd(prj);
+                        }}
+                      >
+                        Edit
+                      </button>
+                      <button
+                        className="delete-button"
+                        onClick={() => {
+                          handleRemovePrd(prj.id);
+                        }}
+                      >
+                        Delete
+                      </button>
+                    </div>
                   </div>
                   <Link className="link-detail-prd" to={`/products/${prj.id}`}>
                     {objAttributes.sub_title && (

@@ -154,15 +154,39 @@
   height: fit-content;
 }
 
-.bth-edit {
+.action-buttons {
   position: absolute;
-  top: 10px;
+  top: 20px;
   right: 10px;
-  border-radius: 50%;
-  border: 1px solid #ffffff;
-  padding: 5px;
-  z-index: 1;
-  background-color: #83c1ef;
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: space-between; /* Để các nút đứng cạnh nhau */
+  align-items: center; /* Để căn giữa theo chiều dọc */
+}
+
+.edit-button,
+.delete-button {
+  width: 40px; /* Để tạo hình tròn */
+  height: 40px;
+  border-radius: 50%; /* Tạo hình tròn */
+  background-color: #007bff; /* Màu nền của nút Edit */
+  color: #fff; /* Màu văn bản trắng */
+  border: none; /* Loại bỏ đường viền */
+  display: flex; /* Để căn giữa nội dung */
+  justify-content: center; /* Để căn giữa theo chiều ngang */
+  align-items: center; /* Để căn giữa theo chiều dọc */
+  cursor: pointer; /* Biểu tượng con trỏ khi di chuột vào */
+}
+
+.delete-button {
+  background-color: hsl(0, 51%, 58%); /* Màu nền của nút Delete */
+}
+
+/* Điều chỉnh khoảng cách giữa nút Edit và Delete */
+.edit-button + .delete-button {
+  margin-left: 10px; /* Khoảng cách giữa nút Edit và Delete */
 }
 
 .prj-img {
@@ -204,4 +228,46 @@
 
 .link-detail-prd {
   text-decoration: none;
+}
+
+.backdrop {
+  display: none;
+
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Màu đen mờ với độ trong suốt 50% */
+  z-index: 1000; /* Đảm bảo rằng backdrop luôn hiển thị trên các thành phần khác */
+
+  /* Animation for backdrop */
+  transition: opacity 0.3s ease-in-out;
+}
+
+.backdrop.open {
+  display: block;
+  opacity: 1;
+}
+
+.progress-circle {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #007bff; /* Màu tiến trình */
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  position: absolute;
+  top: 50%;
+  right: 50%;
+}
+
+/* Animation for progress circle */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }

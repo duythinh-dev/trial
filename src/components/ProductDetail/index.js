@@ -4,10 +4,12 @@ import CloseIcon from "../Icon/CloseIcon";
 import "./styles.css";
 
 export default function ProductDetail({ data, moreProducts = [] }) {
+  console.log(data, moreProducts);
   const objAttributes = data.attributes;
-  const techsData = objAttributes.technologies.data;
-  const devServData = objAttributes.development_services.data;
-  const galleryData = objAttributes.gallery.data;
+  const techsData = objAttributes.technologies?.data || [];
+  const devServData = objAttributes.development_services?.data || [];
+  const galleryData = objAttributes.gallery?.data || [];
+  const mainImage = objAttributes.image.data.attributes.url || null;
   return (
     <div className="main-page-detail">
       <div className="main-img-container">
@@ -26,9 +28,7 @@ export default function ProductDetail({ data, moreProducts = [] }) {
         </div>
         <img
           className="main-img"
-          src={`https://cms-vietswiss-staging.absolutagentur.ch${
-            objAttributes.image.data.attributes.url || ""
-          }`}
+          src={`https://cms-vietswiss-staging.absolutagentur.ch${mainImage}`}
           alt=""
         />
       </div>
@@ -39,25 +39,30 @@ export default function ProductDetail({ data, moreProducts = [] }) {
           <span>{objAttributes.description}</span>
         </div>
         <div className="divider" />
-        <div className="info">
-          <h3 className="title">Services we provided</h3>
-          <div className="list-chip">
-            {devServData.map((svItem) => (
-              <div className="chip">{svItem.attributes.name}</div>
-            ))}
+        {devServData.length > 0 && (
+          <div className="info">
+            <h3 className="title">Services we provided</h3>
+            <div className="list-chip">
+              {devServData.map((svItem) => (
+                <div className="chip">{svItem.attributes.name}</div>
+              ))}
+            </div>
           </div>
-        </div>
-        <div className="info">
-          <h3 className="title">Technologies used</h3>
-          <div className="tech-list">
-            {techsData.map((techItem) => (
-              <div className="tech-item">
-                <div className="logo-tech">logo</div>
-                <div className="name-tech">{techItem.attributes.name}</div>
-              </div>
-            ))}
+        )}
+        {techsData.length > 0 && (
+          <div className="info">
+            <h3 className="title">Technologies used</h3>
+            <div className="tech-list">
+              {techsData.map((techItem) => (
+                <div className="tech-item">
+                  <div className="logo-tech">logo</div>
+                  <div className="name-tech">{techItem.attributes.name}</div>
+                </div>
+              ))}
+            </div>
           </div>
-        </div>
+        )}
+
         <div className="list-image">
           {galleryData.map((galItem) => {
             const mediaType = galItem.attributes.mime;

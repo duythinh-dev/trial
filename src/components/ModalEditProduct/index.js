@@ -1,19 +1,27 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { editProduct } from "../../containers/Products/actions";
+import { editProduct, createProduct } from "../../containers/Products/actions";
 
 import "./styles.css";
 
 export default function ModalEditProduct({ modalData, setModalData }) {
+  const dispatch = useDispatch();
   const closeModal = () => {
     setModalData({ open: false, data: null });
   };
-  const dispatch = useDispatch();
-  const [editedPost, setEditedPost] = useState({
-    image: `https://cms-vietswiss-staging.absolutagentur.ch${modalData.data.attributes.image.data.attributes.url}`,
-    name: modalData.data.attributes.name,
-    description: modalData.data.attributes.description,
-  });
+
+  const isModalCreatePost = modalData.type === "create";
+  const [editedPost, setEditedPost] = useState(
+    isModalCreatePost
+      ? { image: null, name: "", description: "" }
+      : {
+          image: modalData.data?.attributes?.image?.data?.attributes.url
+            ? `https://cms-vietswiss-staging.absolutagentur.ch${modalData.data?.attributes?.image?.data?.attributes.url}`
+            : "https://phutungnhapkhauchinhhang.com/wp-content/uploads/2020/06/default-thumbnail.jpg",
+          name: modalData.data.attributes.name,
+          description: modalData.data.attributes.description,
+        }
+  );
   console.log(editedPost);
 
   const handleInputChange = (e) => {
@@ -30,9 +38,13 @@ export default function ModalEditProduct({ modalData, setModalData }) {
       const reader = new FileReader();
 
       reader.onload = (e) => {
+        const formData = new FormData();
+
+        formData.append("files", file);
         setEditedPost({
           ...editedPost,
           image: e.target.result,
+          fileImage: formData,
         });
       };
 
@@ -44,19 +56,33 @@ export default function ModalEditProduct({ modalData, setModalData }) {
     e.preventDefault();
     const changedData = { ...modalData };
 
-    // Cập nhật các thông tin đã thay đổi từ form vào biến changedData
-    // changedData.data.attributes.image.data.attributes.url = editedPost.image;
-    changedData.data.attributes.name = editedPost.name;
-    changedData.data.attributes.description = editedPost.desc;
-    dispatch(
-      editProduct({
-        data: changedData.data,
-        handleCloseModal: closeModal,
-      })
-    );
+    if (!isModalCreatePost) {
+      changedData.data.attributes.name = editedPost.name;
+      changedData.data.attributes.description = editedPost.desc;
+      dispatch(
+        editProduct({
+          data: changedData.data,
+          handleCloseModal: closeModal,
+          editedPost,
+        })
+      );
+    } else {
+      dispatch(
+        createProduct({
+          data: {
+            ...editedPost,
+          },
+          handleCloseModal: closeModal,
+        })
+      );
+    }
     // onSave(editedPost);
     // closeModal();
   };
+
+  function openUploadModal() {
+    document.getElementById("image").click();
+  }
 
   return (
     <>
@@ -73,13 +99,20 @@ export default function ModalEditProduct({ modalData, setModalData }) {
               <form className="edit-post-form" onSubmit={handleSubmit}>
                 <div className="form-group">
                   <label htmlFor="image">Hình ảnh:</label>
-                  <input
-                    type="file"
-                    id="image"
-                    name="image"
-                    accept="image/*"
-                    onChange={handleImageChange}
-                  />
+
+                  <div className="custom-upload" onClick={openUploadModal}>
+                    <label htmlFor="file-upload" className="upload-label">
+                      <span className="upload-icon">+</span> Tải lên hình ảnh
+                    </label>
+                    <input
+                      type="file"
+                      id="image"
+                      name="image"
+                      accept="image/*"
+                      className="file-input"
+                      onChange={handleImageChange}
+                    />
+                  </div>
                   {editedPost.image && (
                     <img
                       src={editedPost.image}
