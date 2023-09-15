@@ -45,16 +45,26 @@
 }
 
 .darkMode button {
-  width: 48px;
-  height: 48px;
-  border: 1px solid black;
-  border-radius: 50%; /* Border tròn */
-  background-color: #fff; /* Màu nền */
+  width: 45px;
+  height: 45px;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: rgb(255, 255, 255);
+  border-radius: 50%;
   cursor: pointer;
-  margin-left: 20px;
+  transition-duration: 0.3s;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.13);
+  border: none;
+  margin-left: 10px;
+}
+
+.icon-dark-more {
+  width: 18px;
+}
+.con-dark-more path {
+  fill: white;
 }
 
 .menu-item button {
@@ -101,9 +111,11 @@
 }
 
 .menu-container {
+  display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   height: 100vh;
+  gap: 20px;
 }
 
 .menu-item {
@@ -301,4 +313,102 @@
   100% {
     transform: rotate(360deg);
   }
+}
+
+@media (max-width: 768px) {
+  .menu-container {
+    display: none;
+  }
+  .main-container {
+    display: grid;
+    grid-template-columns: 25% 25% 25% 25%;
+    grid-template-rows: auto;
+    grid-template-areas: "products products products products";
+    padding: 25px;
+  }
+
+  .grid-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
+    gap: 40px;
+    padding: 20px;
+  }
+}
+.button-container {
+  position: relative;
+  display: inline-block;
+}
+
+.hover-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.btn-menu {
+  width: 50px;
+  height: 50px;
+  background-color: #f1f2f5;
+  color: #fff;
+  border-radius: 50px;
+  text-align: center;
+  font-size: 30px;
+  box-shadow: 2px 2px 3px #999;
+  z-index: 100;
+  border: #75777b;
+  transition: 0.5s;
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted #f05672;
+  cursor: pointer;
+}
+.btn-menu .tooltiptext {
+  visibility: hidden;
+  width: fit-content;
+  background-color: #f05672;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  top: 0px;
+  left: 110%;
+  font-size: 20px;
+}
+
+.btn-menu .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: 100%;
+  margin-top: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent #f05672 transparent transparent;
+}
+.btn-menu:hover .tooltiptext {
+  visibility: visible;
+}
+
+.btn-menu:hover {
+  transform: scale(1.1);
+}
+
+.btn-menu:active {
+  background-color: #a2a2a4;
+}
+
+.arrow-up {
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 35%;
+  margin-bottom: 60%;
+  border-bottom: 15px solid white;
 }
