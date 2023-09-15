@@ -39,7 +39,12 @@ function Products({
             <span>code & design</span>
           </div>
           <div className="right-object">
-            <div className="lang">EN</div>
+            <div className="lang">
+              <select name="pets" id="pet-select" className="select-lg">
+                <option value="En">EN</option>
+                <option value="dog">VI</option>
+              </select>
+            </div>
             <div className="darkMode">
               <button type="button">
                 <LightIcon className="icon-dark-more" />

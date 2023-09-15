@@ -412,3 +412,11 @@
   margin-bottom: 60%;
   border-bottom: 15px solid white;
 }
+
+.select-lg {
+  font-size: 0.9rem;
+  padding: 2px 5px;
+  width: 70px;
+  height: 30px;
+  border-radius: 14px;
+}

@@ -16,7 +16,6 @@ function* fetchData() {
 
 function* createProduct(action) {
   try {
-    console.log(action);
     let dataImage;
 
     // Kiểm tra xem có fileImage để tải lên hay không
@@ -63,7 +62,6 @@ function* createProduct(action) {
         },
       },
     };
-    console.log(result);
     // Dispatch an action to set the data in the store
     yield put({ type: "CREATE_PRODUCT_SUCCESS", payload: result });
     action.data.handleCloseModal();
@@ -74,7 +72,6 @@ function* createProduct(action) {
 
 function* deleteProduct(action) {
   try {
-    console.log(action);
     // Simulate an API call
     const response = yield fetch(
       `https://cms-vietswiss-staging.absolutagentur.ch/api/projects/${action.id}`,
@@ -91,12 +88,9 @@ function* deleteProduct(action) {
 }
 
 function* updateProduct(action) {
-  console.log(action);
   try {
     const idPrj = action.data.data.id;
-    const dataPrj = action.data.data;
     let dataImage;
-
     // Kiểm tra xem có fileImage để tải lên hay không
     if (action.data.editedPost.fileImage) {
       const responseUploadImage = yield fetch(
@@ -113,8 +107,6 @@ function* updateProduct(action) {
       dataImage = [];
     }
 
-    console.log(dataImage);
-
     const response = yield fetch(
       `https://cms-vietswiss-staging.absolutagentur.ch/api/projects/${idPrj}`,
       {
@@ -124,8 +116,8 @@ function* updateProduct(action) {
         },
         body: JSON.stringify({
           data: {
-            name: dataPrj.attributes.name,
-            description: dataPrj.attributes.description,
+            name: action.data.editedPost.name,
+            description: action.data.editedPost.description,
             ...(dataImage.length > 0
               ? {
                   image: {
