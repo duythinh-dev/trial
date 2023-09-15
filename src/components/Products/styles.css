@@ -262,6 +262,37 @@
   right: 50%;
 }
 
+.custom-skeleton {
+  width: 100%;
+  height: 266px;
+  background-color: #949494; /* Màu nền của skeleton */
+  position: relative;
+  overflow: hidden;
+}
+
+.custom-skeleton::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.2),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
 /* Animation for progress circle */
 @keyframes spin {
   0% {

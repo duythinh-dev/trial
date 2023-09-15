@@ -7,7 +7,12 @@ import BackIcon from "../Icon/BackIcon";
 import ModalEditProduct from "../ModalEditProduct";
 import "./styles.css";
 
-function Products({ projects, loadingUpdatePrj, handleRemovePrd }) {
+function Products({
+  projects,
+  loadingUpdatePrj,
+  handleRemovePrd,
+  getingProducts,
+}) {
   const [modalData, setModalData] = useState({ open: false, data: null });
   const handleOpenModalEditPrd = (dataPrd) => {
     setModalData({ open: true, data: dataPrd, type: "update" });
@@ -68,6 +73,16 @@ function Products({ projects, loadingUpdatePrj, handleRemovePrd }) {
             </div>
           </div>
           <div className="grid-container">
+            {getingProducts &&
+              [1, 2, 3, 4, 5, 6].map((i) => {
+                return (
+                  <div className="grid-item" key={i}>
+                    <div className="image-container">
+                      <div className="custom-skeleton"></div>
+                    </div>
+                  </div>
+                );
+              })}
             {projects.map((prj) => {
               const objAttributes = prj.attributes;
               return (
